@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="~/Content/Images/logo/logo.png" type="image/ico" />
+
+    <title>@ViewData["Title"]</title>
+
+    <!-- Bootstrap -->
+    <link href="/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    @*<link href="/lib/bootstrap/fonts/glyphicons-halflings-regular.ttf" rel="stylesheet">*@
+    <!-- jQuery UI-->
+    <link href="~/lib/jquery-ui-1.12.1/jquery-ui.min.css" rel="stylesheet">
+    <link href="~/lib/jquery-ui-1.12.1/jquery-ui.theme.min.css" rel="stylesheet">
+
+    <!-- Custom Theme Style -->
+    <link href="~/css/custom.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="~/css/style.css" asp-append-version="true" />
+    v
+    @RenderSection("styles", false)
+</head>
+
+<body class="nav-md">
+
+    <!-- LOADING MASK -->
+    <div class='lmask'></div>
+    <!-- LOADING MASK -->
+
+    <div class="container body">
+
+        <div class="main_container">
+
+            <div class="col-md-3 left_col">
+                <div class="left_col scroll-view">
+
+                    <!-- sidebar menu -->
+                    <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+                        <div class="menu_section">
+                            <h3>Menu</h3>
+                            <ul class="nav side-menu">
+                                <li>
+                                    <a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i>Home Page</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- /sidebar menu -->
+                    <!-- /menu footer buttons -->
+                    <div class="sidebar-footer hidden-small">
+                    </div>
+                    <!-- /menu footer buttons -->
+                </div>
+            </div>
+
+            <!-- top navigation -->
+            <div class="top_nav">
+                <div class="nav_menu">
+                    <nav>
+                        <div class="nav toggle">
+                            <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                        </div>
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="">
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+
+            @RenderBody()
+
+            <!-- footer content -->
+            <footer>
+                <div class="pull-right">
+
+                </div>
+                <div class="clearfix"></div>
+            </footer>
+            <!-- /footer content -->
+        </div>
+    </div>
+
+
+    <!-- jQuery -->
+    <script src="/lib/jquery/jquery.min.js"></script>
+    <script src="/lib/jquery-validation/jquery.validate.min.js"></script>
+    <script src="/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <!-- Bootstrap -->
+    <script src="/lib/bootstrap/js/bootstrap.min.js"></script>
+    <!-- jQuery UI-->
+    <script src="/lib/jquery-ui-1.12.1/jquery-ui.js"></script>
+
+    <!-- Custom Theme Scripts -->
+    @*<script src="/lib/"></script>*@
+
+    <!-- ASG Objects Scripts -->
+    <script src="/js/utils.js"></script>
+    <script src="/js/extensions.js"></script>
+
+    @RenderSection("scripts", false)
+</body>
+</html>
