@@ -18,6 +18,7 @@ namespace QuickDotNetUI.Html
         
         public static IHtmlContent Input(this IHtmlHelper htmlHelper) { return Input(htmlHelper, null); }
         public static IHtmlContent Input(this IHtmlHelper htmlHelper, string name) { return htmlFactory.CreateHtmlElement("input"); }
+        
         // -- div ---------------------------------------------------------------------------------------------------------------------------------
 
         public static IHtmlContent Div(this IHtmlHelper htmlHelper, string text) { 
