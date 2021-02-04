@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace QuickDotNetUI.Models.Html
+namespace QuickDotNetUI.Models
 {
    public class HtmlElement : IHtmlElement
     {
