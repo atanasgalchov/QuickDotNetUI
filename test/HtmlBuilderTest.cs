@@ -2,7 +2,6 @@
 using Moq;
 using QuickDotNetUI.Core;
 using QuickDotNetUI.Models;
-using QuickDotNetUI.Models.Html;
 using System;
 using System.Collections.Generic;
 using System.Text;

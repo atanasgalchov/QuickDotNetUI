@@ -10,6 +10,16 @@ namespace QuickDotNetUI.Models
     {
         private List<IHtmlElement> _List = new List<IHtmlElement>();
         protected List<IHtmlElement> List { get { return _List; } }
+
+		public HtmlElementsCollection()
+		{
+
+		}
+		public HtmlElementsCollection(IHtmlElement[] elements)
+		{
+            _List.AddRange(elements);
+
+        }
         public IHtmlElement this[int index]
         {
             get

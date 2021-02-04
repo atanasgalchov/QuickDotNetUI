@@ -40,7 +40,7 @@ namespace QuickDotNetUI.Core
             if (htmlElement.Children.IsNullOrEmpty())
                 return new HtmlString(
                     $"{GetStartHtmlTag(htmlElement.Name)}{htmlElement.Text()}{GetEndHtmlTag(htmlElement.Name)}"
-                        .Insert((htmlElement.Name.Length + 2), GetAttributesAsString(htmlElement)));
+                        .Insert((htmlElement.Name.Length + 1), $" {GetAttributesAsString(htmlElement)}"));
 
             var childContents = new List<IHtmlContent>();
             foreach (var child in htmlElement.Children)
@@ -67,7 +67,7 @@ namespace QuickDotNetUI.Core
 
             foreach (var attribute in htmlTag.Attributes)
             {
-                if (!IsValidHtmlAttribute(attribute.Name) || IsValidHtmlAttributeForTag(attribute.Name, htmlTag.Name))
+                if (!IsValidHtmlAttribute(attribute.Name) || !IsValidHtmlAttributeForTag(attribute.Name, htmlTag.Name))
                     throw new ArgumentException($"{attribute.Name} is not valid attribute for { htmlTag.Name}, according Html Standarts version {_htmlStandarts.HtmlVersion}");
 
                 if (attribute.Value == null)
