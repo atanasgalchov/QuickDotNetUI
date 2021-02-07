@@ -35,6 +35,10 @@ namespace QuickDotNetUI.Models
         {
             _List.Add(tag);
         }
+        public void AddRange(IEnumerable<HtmlElement> enumerable)
+        {
+            _List.AddRange(enumerable);
+        }
         public void AddAfter(string uid, IHtmlElement tag)
         {
             throw new NotImplementedException();
@@ -66,14 +70,17 @@ namespace QuickDotNetUI.Models
         {
             throw new NotImplementedException();
         }
-
+     
         IEnumerator IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
         public IEnumerator<IHtmlElement> GetEnumerator()
         {
-            throw new NotImplementedException();
+            foreach (var element in List)
+            {
+                yield return element;
+            }
         }
-    }
+	}
 }

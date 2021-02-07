@@ -36,17 +36,19 @@ namespace QuickDotNetUI.Core
                 throw new ArgumentException(
                     $"{htmlElement.Name} is not valid HTML tag. Standart html tags are {String.Join(',', _htmlStandarts.AllTags)}, " +
                     $"according Html Standarts version {_htmlStandarts.HtmlVersion}");
-
+       
             if (htmlElement.Children.IsNullOrEmpty())
                 return new HtmlString(
                     $"{GetStartHtmlTag(htmlElement.Name)}{htmlElement.Text()}{GetEndHtmlTag(htmlElement.Name)}"
-                        .Insert((htmlElement.Name.Length + 1), $" {GetAttributesAsString(htmlElement)}"));
+                        .Insert((htmlElement.Name.Length + 1), htmlElement.Attributes.IsNullOrEmpty() ? "" : $" {GetAttributesAsString(htmlElement)}"));
 
             var childContents = new List<IHtmlContent>();
             foreach (var child in htmlElement.Children)
                 childContents.Add(_CreateElement(child));
 
-            return new HtmlString(String.Join("", childContents.Select(x => x.ToString()).ToArray()));
+            return new HtmlString(
+                    $"{GetStartHtmlTag(htmlElement.Name)}{htmlElement.Text()}{String.Join("", childContents.Select(x => x.ToString()).ToArray())}{GetEndHtmlTag(htmlElement.Name)}"
+                        .Insert((htmlElement.Name.Length + 1), $" {GetAttributesAsString(htmlElement)}"));
         }
 
         public string GetStartSelfClosingHtmlTag(string tagName) => $"<{TrimHtmlTag(tagName)} />";
@@ -55,10 +57,10 @@ namespace QuickDotNetUI.Core
         public string TrimHtmlTag(string tagName) => Regex.Replace(tagName, @"\s+|/+", "").TrimStart('<').TrimEnd('>');
         public bool IsValidHtmlTag(string tagName) => _htmlStandarts.AllTags.Any(x => TrimHtmlTag(x).IsEqualIgnoreCase(tagName));
         public bool IsSelfClosingHtmlTag(string tagName) => _htmlStandarts.SelfClosingTags.Any(x => TrimHtmlTag(x).IsEqualIgnoreCase(tagName));
-        public bool IsValidHtmlAttribute(string attributeName) => _htmlStandarts.AttributeTags.ContainsKey(attributeName);
+        public bool IsValidHtmlAttribute(string attributeName) => attributeName.StartsWith("data") || _htmlStandarts.AttributeTags.ContainsKey(attributeName);
         public bool IsValidHtmlAttributeForTag(string attributeName, string tagName)
-            => _htmlStandarts.AttributeTags.ContainsKey(attributeName) &&
-            (_htmlStandarts.AttributeTags[attributeName].IsNullOrEmpty() || _htmlStandarts.AttributeTags[attributeName].Any(x => TrimHtmlTag(x).IsEqualIgnoreCase(tagName)));
+            => attributeName.StartsWith("data") || (_htmlStandarts.AttributeTags.ContainsKey(attributeName) &&
+            (_htmlStandarts.AttributeTags[attributeName].IsNullOrEmpty() || _htmlStandarts.AttributeTags[attributeName].Any(x => TrimHtmlTag(x).IsEqualIgnoreCase(tagName))));
         public string GetAttributesAsString(IHtmlElement htmlTag) 
         {
             string attributesString = String.Empty;
@@ -68,7 +70,7 @@ namespace QuickDotNetUI.Core
             foreach (var attribute in htmlTag.Attributes)
             {
                 if (!IsValidHtmlAttribute(attribute.Name) || !IsValidHtmlAttributeForTag(attribute.Name, htmlTag.Name))
-                    throw new ArgumentException($"{attribute.Name} is not valid attribute for { htmlTag.Name}, according Html Standarts version {_htmlStandarts.HtmlVersion}");
+                    throw new ArgumentException($"'{attribute.Name}' is not valid attribute for '{ htmlTag.Name}', according Html Standarts version '{_htmlStandarts.HtmlVersion}'");
 
                 if (attribute.Value == null)
                     attributesString += $"{attribute.Name} ";

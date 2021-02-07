@@ -5,21 +5,21 @@ using System.Text;
 
 namespace QuickDotNetUI.Models
 {
-    public interface IHtmlElement : IHtml
+    public interface IHtmlElement
     {
         string UId { get; }
         string Name { get; }
         IHtmlElementsCollection Children { get; }
         void Text(HtmlString html);
         HtmlString Text();
-        void Append(HtmlString Html);
+        void Append(HtmlElement element);
         IHtmlAttribute[] Attributes { get; set; }
         void AddAttribute(IHtmlAttribute attribute);
         void AddAttributeValue(string Name, string Value);
+        bool HasAttribute(string Name);
+        IHtmlAttribute GetAttribute(string Name);
         void ReplaceAttributeValue(string Name, string Value);
         void RemoveAttribute(string Name);
-        void HasAttribute(string Name);
-        void GetAttribute(string Name);
-        void MergeAttributes(IHtmlAttribute[] Attributes);
+        void AddRangeAttributes(IHtmlAttribute[] Attributes);
     }
 }

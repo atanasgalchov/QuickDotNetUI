@@ -165,7 +165,7 @@ namespace QuickDotNetUI
              {"download", new string[] { "<a>","<area>"}} ,
              {"draggable", null} ,
              {"enctype", new string[] { "<form>"}} ,
-             {"for", new string[] { "<output>"}} ,
+             {"for", new string[] { "<output>", "<label>"}} ,
              {"form", new string[] { "<button>","<fieldset>","<input>","<meter>","<object>","<output>","<select>","<textarea>"}} ,
              {"formaction", new string[] { "<button>","<input>"}} ,
              {"headers", new string[] { "<td>","<th>"}} ,
@@ -315,13 +315,39 @@ namespace QuickDotNetUI
             "<source />",
             "<track /> "
         };
-
+        private string[] _inputTypes => new string[]
+        {
+             "button",
+             "checkbox",
+             "color",
+             "date",
+             "datetime-local",
+             "email",
+             "file",
+             "hidden",
+             "image",
+             "month",
+             "number",
+             "password",
+             "radio",
+             "range",
+             "reset",
+             "search",
+             "submit",
+             "tel",
+             "text",
+             "time",
+             "url",
+             "week",
+        };
         public string HtmlVersion => "5";
         public string[] AllTags => _standartHtmlTags;
         public IDictionary<string, string[]> AttributeTags => _standartHtmlAttrubuteTagsDict;
         public string[] SelfClosingTags => _selfClosingTags;
 
-        public void Read()
+		public string[] InputTypes { get { return _inputTypes; } }
+
+		public void Read()
         {
             throw new NotImplementedException();
         }

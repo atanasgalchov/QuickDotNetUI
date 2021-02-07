@@ -10,7 +10,7 @@ namespace QuickDotNetUI.Models
         string[] AllTags { get;}
         IDictionary<string, string[]> AttributeTags { get; }
         string[] SelfClosingTags { get;}
-
+        string[] InputTypes { get; }
         void Read();
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace QuickDotNetUI.Models
 {
-	public class HtmlElementDefinition : IHtmlElementDefinition
+	public class HtmlElementOptions
 	{
 		public string TagName { get; set; }
 		public string Text { get; set; }

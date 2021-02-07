@@ -15,5 +15,6 @@ namespace QuickDotNetUI.Models
         void AddAfter(string uid, IHtmlElement tag);
         void Remove(string uid);
         void RemoveAll(string name);
-    }
+		void AddRange(IEnumerable<HtmlElement> enumerable);
+	}
 }

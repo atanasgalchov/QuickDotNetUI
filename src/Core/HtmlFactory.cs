@@ -1,8 +1,14 @@
 ﻿using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using QuickDotNetUI.Attributes;
+using QuickDotNetUI.Extensions;
 using QuickDotNetUI.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace QuickDotNetUI.Core
@@ -16,7 +22,7 @@ namespace QuickDotNetUI.Core
         }
         public IHtmlBuilder HtmlBuilder { get { return _htmlBuilder; } }
 
-        public IHtmlContent CreateElement(HtmlElementDefinition htmlElemenDefinition) 
+        public IHtmlContent CreateElement(HtmlElementOptions htmlElemenDefinition) 
         {
             string text = $"{htmlElemenDefinition.Text}" +
                 $"{(htmlElemenDefinition.Elements != null ? String.Join(' ', htmlElemenDefinition.Elements.Select(x => x.ToString())) : String.Empty)}";
@@ -27,40 +33,11 @@ namespace QuickDotNetUI.Core
                 }
              );
         }
-
-        public IHtmlContent CreateHtmlElement(string tagName, string text, IHtmlContent[] tags)
-        {
-            return HtmlBuilder.CreateElement(new HtmlElement(tagName, text) {  } );
-        }
-        public IHtmlContent CreateHtmlElement(string tagName, IHtmlContent[] tags)
-        {
-            return HtmlBuilder.CreateElement(new HtmlElement(tagName));
-        }
-        public IHtmlContent CreateHtmlElement(string tagName, IHtmlAttribute[] attributes)
-        {
-            return HtmlBuilder.CreateElement(new HtmlElement(tagName) { Attributes = attributes });
-        }
-        public IHtmlContent CreateHtmlElement(string tagName, string text) 
-        {
-            return HtmlBuilder.CreateElement(new HtmlElement(tagName, text));
-        }
-        public IHtmlContent CreateHtmlElement(string tagName)
-        {
-            return CreateHtmlElement(tagName, null, null);
-        }
-
-        //public IHtmlContent CreateHtmlForm(Type type)
-        //{
-        //    HtmlElement form = new HtmlElement("form");
-
-        //    foreach (var prop in type.GetProperties()) 
-        //    {
-        //        HtmlElement field = new HtmlElement("input");
-        //        field.Children = new HtmlElementsCollection();
-               
-        //    }
-
-        //    return HtmlBuilder.CreateElement(form);
-        //}
+		public IHtmlContent CreateFormElement(HtmlFormOptions options)
+		{
+            var formGenerator = new HtmlFormGenerator(options);
+            var formElement = formGenerator.GenerateFormElement();
+            return HtmlBuilder.CreateElement(formElement);
+		}
     }
 }

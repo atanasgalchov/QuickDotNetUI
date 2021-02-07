@@ -5,7 +5,7 @@ using System.Text;
 
 namespace QuickDotNetUI.Models
 {
-    public interface IHtmlAttribute : IHtml
+    public interface IHtmlAttribute
     {
         string Name { get; }
         string Value { get; set; }

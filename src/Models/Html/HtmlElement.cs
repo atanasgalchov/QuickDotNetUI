@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Html;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace QuickDotNetUI.Models
@@ -10,9 +11,10 @@ namespace QuickDotNetUI.Models
         private string _uid;
         private string _name;
         private HtmlString _text = HtmlString.Empty;
+        private List<IHtmlAttribute> _attributes { get; set; } = new List<IHtmlAttribute>();
         public HtmlElement(string tagName)
         {
-            _uid = new Guid().ToString();
+            _uid = Guid.NewGuid().ToString().Replace("-","");
             _name = tagName;
         }
 		public HtmlElement(string tagName, string text): this (tagName)
@@ -22,36 +24,56 @@ namespace QuickDotNetUI.Models
         public string UId => _uid;
         public string Name => _name;
 
-
-        public IHtmlElementsCollection Children { get; set; }
-
-        public IHtmlAttribute[] Attributes { get; set; }
-
+        public IHtmlElementsCollection Children { get; set; } = new HtmlElementsCollection();
+        public IHtmlAttribute[] Attributes 
+        {
+            get 
+            { 
+                return _attributes.ToArray(); 
+            } 
+            set 
+            {        
+                 _attributes = new List<IHtmlAttribute>(value != null ? value : new HtmlAttributes[] { });
+            } 
+        }
         public void AddAttribute(IHtmlAttribute attribute)
         {
-            throw new NotImplementedException();
-        }
+            if (attribute != null) 
+            {
+                _attributes.RemoveAll(x => x.Name == attribute.Name);
 
+                _attributes.Add(attribute);
+            }
+        }
+        public void AddAttribute(string name)
+        {
+            AddAttribute(new HtmlAttributes(name));
+        }
         public void AddAttributeValue(string Name, string Value)
         {
-            throw new NotImplementedException();
-        }
+            if (!_attributes.Any(x => x.Name == Name))
+                _attributes.Add(new HtmlAttributes(Name));
 
-        public void Append(HtmlString Html)
+            _attributes.Find(x => x.Name == Name).Value = Value;
+        }
+        public void AddRangeAttributes(IHtmlAttribute[] Attributes)
         {
-            throw new NotImplementedException();
+            _attributes.AddRange(Attributes);
         }
-
-        public void GetAttribute(string Name)
+        public IHtmlAttribute GetAttribute(string Name)
         {
-            throw new NotImplementedException();
+            return _attributes.FirstOrDefault(x => x.Name == Name);
         }
 
-        public void HasAttribute(string Name)
+        public bool HasAttribute(string Name)
         {
-            throw new NotImplementedException();
+            return _attributes.Any(x => x.Name == Name);
         }
 
+        public void Append(HtmlElement element)
+        {
+            Children.Add(element);
+        }
         public void Text(HtmlString html)
         {
             _text = html;
@@ -61,12 +83,10 @@ namespace QuickDotNetUI.Models
         {
             return _text;
         }
-
         public void MergeAttributes(IHtmlAttribute[] Attributes)
         {
             throw new NotImplementedException();
         }
-
         public void RemoveAttribute(string Name)
         {
             throw new NotImplementedException();
