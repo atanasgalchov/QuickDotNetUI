@@ -25,7 +25,7 @@ namespace QuickDotNetUI.Core
         {
 
             HtmlElement formContent = new HtmlElement("div");
-            formContent.Children = GetHtmlFormFiledSets();
+            formContent.Children = GetHtmlFormGroups();
             
             HtmlElement formFooter = new HtmlElement("div");       
             formFooter.Append(GetFormButtons());
@@ -95,7 +95,7 @@ namespace QuickDotNetUI.Core
 
             return GetInput(type, propInfo.Name, propInfo.GetValue(_options.Model), values, dateFormat);
         }
-        private HtmlElementsCollection GetHtmlFormFiledSets()
+        private HtmlElementsCollection GetHtmlFormGroups()
         {
             HtmlElementsCollection formElements = new HtmlElementsCollection();
             PropertyInfo[] propertiesInfo = _options.Model.GetType().GetProperties();
@@ -138,7 +138,7 @@ namespace QuickDotNetUI.Core
                 labelText = _options.LabelTemplateFunc(labelText);
 
             HtmlElement label = new HtmlElement("label", labelText);
-            label.Attributes = new IHtmlAttribute[] { new HtmlAttributes("for", propInfo.Name)};
+            label.Attributes = new IHtmlAttribute[] { new HtmlAttribute("for", propInfo.Name)};
            
             if(_options.LabelAttributes != null)
                 label.AddRangeAttributes(_options.LabelAttributes);
@@ -166,7 +166,7 @@ namespace QuickDotNetUI.Core
                     input.AddAttributeValue("type", "checkbox");
                     input.AddAttributeValue("value", "true");
                     if ((bool)value == true)
-                        input.AddAttribute(new HtmlAttributes("checked"));
+                        input.AddAttribute(new HtmlAttribute("checked"));
                     break;
                 case "color":
                     input.AddAttributeValue("type", "color");
@@ -207,39 +207,7 @@ namespace QuickDotNetUI.Core
                     input.AddAttributeValue("value", value != null ? value.ToString() : "");
                     break;
                 case "radio":
-                    HtmlElement wrapper = new HtmlElement("span");
-                    if (_options.RadioButtonsGroupWrapperAttributes != null)
-                        wrapper.AddRangeAttributes(_options.RadioButtonsGroupWrapperAttributes);
-
-                    foreach (var item in values)
-                    {
-                        var label = new HtmlElement("label");
-                        label.Text(new HtmlString(item.Text));
-                       
-                        if (_options.RadioButtonsGroupLabelAttributes != null)
-                            label.AddRangeAttributes(_options.RadioButtonsGroupLabelAttributes);
-
-                        var radioInput = new HtmlElement("input")
-                        {
-                            Attributes = new IHtmlAttribute[]
-                            {
-                                new HtmlAttributes("name", name),
-                                new HtmlAttributes("value", item.Value),
-                                new HtmlAttributes("type", "radio")
-                            }
-                        };
-
-                        if (_options.RadioButtonsGroupInputAttributes != null)
-                            radioInput.AddRangeAttributes(_options.RadioButtonsGroupInputAttributes);
-
-                        if (item.Selected || (value != null && item.Value == value.ToString()))
-                            radioInput.AddAttribute(new HtmlAttributes("checked"));
-
-                        label.Append(radioInput);
-                        wrapper.Append(label);
-                    }
-
-                    input = wrapper;
+                    input = GeRadioButtonsGroup(name, values, value != null ? value.ToString() : "");
                     break;
                 case "range":
                     input.AddAttributeValue("type", "range");
@@ -286,7 +254,7 @@ namespace QuickDotNetUI.Core
                 {
                     Attributes = new IHtmlAttribute[]
                     {
-                        new HtmlAttributes("value", item.Value)
+                        new HtmlAttribute("value", item.Value)
                     }
                 };
 
@@ -299,6 +267,51 @@ namespace QuickDotNetUI.Core
             }
 
             return select;
+        }
+        private HtmlElement GeRadioButtonsGroup(string name, IEnumerable<SelectListItem> values, string value, bool isMultiple = false)
+        {
+            HtmlElement wrapper = new HtmlElement("div");
+          
+            if (_options.RadioButtonsWrapperAttributes != null)
+                wrapper.AddRangeAttributes(_options.RadioButtonsWrapperAttributes);
+
+            foreach (var item in values)
+            {
+               
+                var label = new HtmlElement("label");
+                label.Text(new HtmlString(item.Text), 1);
+
+                if (_options.RadioButtonsGroupLabelAttributes != null)
+                    label.AddRangeAttributes(_options.RadioButtonsGroupLabelAttributes);
+
+                var radioInput = new HtmlElement("input")
+                {
+                    Attributes = new IHtmlAttribute[]
+                    {
+                        new HtmlAttribute("name", name),
+                        new HtmlAttribute("value", item.Value),
+                        new HtmlAttribute("type", isMultiple ? "checkbox" : "radio")
+                    }
+                };
+
+                if (_options.RadioButtonsGroupInputAttributes != null)
+                    radioInput.AddRangeAttributes(_options.RadioButtonsGroupInputAttributes);
+
+                if (item.Selected || (value != null && item.Value == value.ToString()))
+                    radioInput.AddAttribute(new HtmlAttribute("checked"));
+
+                label.Append(radioInput);
+               
+                var div = new HtmlElement("div");
+                div.Append(label);
+
+                if (_options.RadioButtonsGroupWrapperAttributes != null)
+                    div.AddRangeAttributes(_options.RadioButtonsGroupWrapperAttributes);
+
+                wrapper.Append(div);
+            }
+
+            return wrapper;
         }
         private HtmlElement GetFormGroup(PropertyInfo propInfo)
         {         
@@ -320,6 +333,9 @@ namespace QuickDotNetUI.Core
            
             formGroup.Append(inputWrapper);
 
+            if (_options.FormGroupTemplateFunc != null)
+                formGroup = _options.FormGroupTemplateFunc(formGroup);
+
             return formGroup;
         }
         private HtmlElement GetFormButtons()
@@ -330,12 +346,12 @@ namespace QuickDotNetUI.Core
             HtmlElement reset = new HtmlElement("input");
             reset.AddAttribute(new QuickDotNetUI.Models.Type("reset"));
 
-            if (_options.ButtonAttributes != null) 
-            {
-                submit.AddRangeAttributes(_options.ButtonAttributes);
-                reset.AddRangeAttributes(_options.ButtonAttributes);
-            }
-           
+            if (_options.SubmitButtonAttributes != null)          
+                submit.AddRangeAttributes(_options.SubmitButtonAttributes);
+                           
+            if (_options.ResetButtonAttributes != null)
+                reset.AddRangeAttributes(_options.ResetButtonAttributes);
+
             HtmlElement wrapper = new HtmlElement("span");
             wrapper.Append(submit);
             wrapper.Append(reset);

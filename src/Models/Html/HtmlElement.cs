@@ -11,6 +11,7 @@ namespace QuickDotNetUI.Models
         private string _uid;
         private string _name;
         private HtmlString _text = HtmlString.Empty;
+        private int _textIndex;
         private List<IHtmlAttribute> _attributes { get; set; } = new List<IHtmlAttribute>();
         public HtmlElement(string tagName)
         {
@@ -23,7 +24,7 @@ namespace QuickDotNetUI.Models
         }
         public string UId => _uid;
         public string Name => _name;
-
+        public int TextIndex => _textIndex;
         public IHtmlElementsCollection Children { get; set; } = new HtmlElementsCollection();
         public IHtmlAttribute[] Attributes 
         {
@@ -33,7 +34,7 @@ namespace QuickDotNetUI.Models
             } 
             set 
             {        
-                 _attributes = new List<IHtmlAttribute>(value != null ? value : new HtmlAttributes[] { });
+                 _attributes = new List<IHtmlAttribute>(value != null ? value : new HtmlAttribute[] { });
             } 
         }
         public void AddAttribute(IHtmlAttribute attribute)
@@ -47,12 +48,12 @@ namespace QuickDotNetUI.Models
         }
         public void AddAttribute(string name)
         {
-            AddAttribute(new HtmlAttributes(name));
+            AddAttribute(new HtmlAttribute(name));
         }
         public void AddAttributeValue(string Name, string Value)
         {
             if (!_attributes.Any(x => x.Name == Name))
-                _attributes.Add(new HtmlAttributes(Name));
+                _attributes.Add(new HtmlAttribute(Name));
 
             _attributes.Find(x => x.Name == Name).Value = Value;
         }
@@ -77,6 +78,12 @@ namespace QuickDotNetUI.Models
         public void Text(HtmlString html)
         {
             _text = html;
+            _textIndex = 0;
+        }
+        public void Text(HtmlString html, int index)
+        {
+            _text = html;
+            _textIndex = index;
         }
 
         public HtmlString Text()

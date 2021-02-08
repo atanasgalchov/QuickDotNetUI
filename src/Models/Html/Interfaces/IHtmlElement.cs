@@ -9,6 +9,7 @@ namespace QuickDotNetUI.Models
     {
         string UId { get; }
         string Name { get; }
+        int TextIndex { get; }
         IHtmlElementsCollection Children { get; }
         void Text(HtmlString html);
         HtmlString Text();

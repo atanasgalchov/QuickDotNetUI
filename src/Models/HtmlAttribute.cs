@@ -4,13 +4,13 @@ using System.Text;
 
 namespace QuickDotNetUI.Models
 {
-	public class HtmlAttributes : IHtmlAttribute
+	public class HtmlAttribute : IHtmlAttribute
 	{
-		public HtmlAttributes(string name)
+		public HtmlAttribute(string name)
 		{
 			Name = name;
 		}
-		public HtmlAttributes(string name, string value) : this(name)
+		public HtmlAttribute(string name, string value) : this(name)
 		{
 			Value = value;
 		}
@@ -18,25 +18,25 @@ namespace QuickDotNetUI.Models
 		public string Name { get; set; }
 		public string Value { get; set; }
 	}
-	public class Class : HtmlAttributes
+	public class Class : HtmlAttribute
 	{
 		public Class(string value): base("class", value)
 		{
 		}
 	}
-	public class Name : HtmlAttributes
+	public class Name : HtmlAttribute
 	{
 		public Name(string value) : base("name", value)
 		{
 		}
 	}
-	public class Id : HtmlAttributes
+	public class Id : HtmlAttribute
 	{
 		public Id(string value) : base("id", value)
 		{
 		}
 	}
-	public class Type : HtmlAttributes
+	public class Type : HtmlAttribute
 	{
 		public Type(string value) : base("type", value)
 		{

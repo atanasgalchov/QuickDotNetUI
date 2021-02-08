@@ -8,8 +8,8 @@ namespace QuickDotNetUI.Models
 {
     public class HtmlElementsCollection : IHtmlElementsCollection
     {
-        private List<IHtmlElement> _List = new List<IHtmlElement>();
-        protected List<IHtmlElement> List { get { return _List; } }
+        private List<IHtmlElement> _list = new List<IHtmlElement>();
+        protected List<IHtmlElement> List { get { return _list; } }
 
 		public HtmlElementsCollection()
 		{
@@ -17,7 +17,7 @@ namespace QuickDotNetUI.Models
 		}
 		public HtmlElementsCollection(IHtmlElement[] elements)
 		{
-            _List.AddRange(elements);
+            _list.AddRange(elements);
 
         }
         public IHtmlElement this[int index]
@@ -33,11 +33,11 @@ namespace QuickDotNetUI.Models
         }
         public void Add(IHtmlElement tag)
         {
-            _List.Add(tag);
+            _list.Add(tag);
         }
         public void AddRange(IEnumerable<HtmlElement> enumerable)
         {
-            _List.AddRange(enumerable);
+            _list.AddRange(enumerable);
         }
         public void AddAfter(string uid, IHtmlElement tag)
         {
@@ -64,11 +64,11 @@ namespace QuickDotNetUI.Models
         }
         public void Remove(string uid)
         {
-            throw new NotImplementedException();
+            _list.RemoveAll(x => x.UId == uid);
         }
         public void RemoveAll(string name)
         {
-            throw new NotImplementedException();
+            _list.RemoveAll(x => x.Name == name);
         }
      
         IEnumerator IEnumerable.GetEnumerator()

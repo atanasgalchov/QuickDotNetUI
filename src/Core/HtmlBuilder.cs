@@ -47,7 +47,7 @@ namespace QuickDotNetUI.Core
                 childContents.Add(_CreateElement(child));
 
             return new HtmlString(
-                    $"{GetStartHtmlTag(htmlElement.Name)}{htmlElement.Text()}{String.Join("", childContents.Select(x => x.ToString()).ToArray())}{GetEndHtmlTag(htmlElement.Name)}"
+                    $"{GetStartHtmlTag(htmlElement.Name)}{String.Join("", childContents.Where((x,i) => i < htmlElement.TextIndex).Select(x => x.ToString()).ToArray())}{htmlElement.Text()}{String.Join("", childContents.Where((x, i) => i >= htmlElement.TextIndex).Select(x => x.ToString()).ToArray())}{GetEndHtmlTag(htmlElement.Name)}"
                         .Insert((htmlElement.Name.Length + 1), $" {GetAttributesAsString(htmlElement)}"));
         }
 

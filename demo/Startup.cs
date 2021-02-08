@@ -19,8 +19,8 @@ namespace QiuckDotNetUIDemo
         {
 
 			services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
-		
-	    }
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

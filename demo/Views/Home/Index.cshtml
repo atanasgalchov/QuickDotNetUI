@@ -5,16 +5,16 @@
     ViewData["Title"] = "Index";
 }
 
-@Html.Div(new HtmlAttributes[] { new Class("right_col") },
+@Html.Div(new HtmlAttribute[] { new Class("right_col") },
     Html.Div(
-        Html.Div(new HtmlAttributes[] { new Class("g-title") },
-            Html.Div(new HtmlAttributes[] { new Class("title_left") }, Html.H3(ViewData["Title"].ToString()))
+        Html.Div(new HtmlAttribute[] { new Class("g-title") },
+            Html.Div(new HtmlAttribute[] { new Class("title_left") }, Html.H3(ViewData["Title"].ToString()))
         ),
         Html.Div(new Class("clearfix")),
-            Html.Div(new HtmlAttributes[] { new Class("x-panel") },
+            Html.Div(new HtmlAttribute[] { new Class("x-panel") },
                 Html.Div(new Class("x_title")),
                 Html.Div(new Class("clearfix")),
-                Html.Div(new HtmlAttributes[] { new Class("x_content") },
+                Html.Div(new HtmlAttribute[] { new Class("x_content") },
                     Html.Div("Wellcome :)")
                  )
             )
@@ -23,14 +23,14 @@
 
 @{
 
-    EmployeeViewModel model = new EmployeeViewModel() 
-    { 
-        Name = "Atanas", 
+    EmployeeViewModel model = new EmployeeViewModel()
+    {
+        Name = "Atanas",
         IsFired = true,
         Department = DepartmentsEnum.IT,
-        BirthDate = DateTime.Now, 
+        BirthDate = DateTime.Now,
         CoffeeBreak = new TimeSpan(10, 15, 0),
-    };
+    }; 
 }
 <div>
     @(Html.Form(new HtmlFormOptions()
@@ -38,12 +38,13 @@
     Model = model,
     Action = Url.Action("Save", "Empployee"),
     FormAttributes = new IHtmlAttribute[] { new Class("form-vertical") },
-    FormGroupAttributes = new HtmlAttributes[] { new Class("form-group") },
-    LabelAttributes = new HtmlAttributes[] { new Class("control-label") },
-    InputAttributes = new HtmlAttributes[] { new Class("form-control") },
-    ButtonAttributes = new HtmlAttributes[] { new Class("btn btn-large") },
-    FormContentAttributes = new HtmlAttributes[] { new Class("form-content") },
-    FormFooterAttributes = new HtmlAttributes[] { new Class("form-footer") },
+    FormGroupAttributes = new HtmlAttribute[] { new Class("form-group") },
+    LabelAttributes = new HtmlAttribute[] { new Class("control-label") },
+    InputAttributes = new HtmlAttribute[] { new Class("form-control") },
+    SubmitButtonAttributes = new HtmlAttribute[] { new Class("btn") },
+    ResetButtonAttributes = new HtmlAttribute[] { new Class("btn btn btn-danger") },
+    FormContentAttributes = new HtmlAttribute[] { new Class("form-content") },
+    FormFooterAttributes = new HtmlAttribute[] { new Class("form-footer") },
 })
     )
 </div>

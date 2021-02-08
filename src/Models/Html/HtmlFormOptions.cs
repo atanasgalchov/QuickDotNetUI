@@ -21,50 +21,63 @@ namespace QuickDotNetUI.Models
 		/// Buttons Templete as Func.
 		/// </summary>
 		public Func<HtmlElement, HtmlElement> FormFooterTemplateFunc { get; set; }
+		/// <summary>
+		/// Form group Templete as Func.
+		/// </summary>
+		public Func<HtmlElement, HtmlElement> FormGroupTemplateFunc { get; set; }
+		
 		
 		/// <summary>
 		/// Form element attributes.
 		/// </summary>
-		public IHtmlAttribute[] FormAttributes { get; set; }
+		public HtmlAttributesCollection FormAttributes { get; set; }
 		/// <summary>
 		/// Form content element attributes.
 		/// </summary>
-		public IHtmlAttribute[] FormContentAttributes { get; set; }
+		public HtmlAttributesCollection FormContentAttributes { get; set; }
 		/// <summary>
 		///  Buttons footer element attributes.
 		/// </summary>
-		public IHtmlAttribute[] FormFooterAttributes { get; set; }
+		public HtmlAttributesCollection FormFooterAttributes { get; set; }
 		/// <summary>
 		/// Label element attributes.
 		/// </summary>
-		public IHtmlAttribute[] LabelAttributes { get; set; }
+		public HtmlAttributesCollection LabelAttributes { get; set; }
 		/// <summary>
 		/// Form group element attributes.
 		/// </summary>
-		public IHtmlAttribute[] FormGroupAttributes { get; set; }
+		public HtmlAttributesCollection FormGroupAttributes { get; set; }
 		/// <summary>
 		/// Input wrapper element attributes.
 		/// </summary>
-		public IHtmlAttribute[] InputWrapperAttributes { get; set; }
+		public HtmlAttributesCollection InputWrapperAttributes { get; set; }
 		/// <summary>
 		/// Input element attributes.
 		/// </summary>
-		public IHtmlAttribute[] InputAttributes { get; set; }
+		public HtmlAttributesCollection InputAttributes { get; set; }
 		/// <summary>
-		/// Radio buttons froup wrapper element attributes.
+		/// Radio buttons wrapper element attributes.
 		/// </summary>
-		public IHtmlAttribute[] RadioButtonsGroupWrapperAttributes { get; set; }
+		public HtmlAttributesCollection RadioButtonsWrapperAttributes { get; set; }
 		/// <summary>
-		/// Radio buttons froup label element attributes.
+		/// Radio buttons group wrapper element attributes.
 		/// </summary>
-		public IHtmlAttribute[] RadioButtonsGroupLabelAttributes { get; set; }
+		public HtmlAttributesCollection RadioButtonsGroupWrapperAttributes { get; set; }
 		/// <summary>
-		/// Radio buttons froup input element attributes.
+		/// Radio buttons group label element attributes.
 		/// </summary>
-		public IHtmlAttribute[] RadioButtonsGroupInputAttributes { get; set; }
+		public HtmlAttributesCollection RadioButtonsGroupLabelAttributes { get; set; }
 		/// <summary>
-		/// Button element attributes.
+		/// Radio buttons group input element attributes.
 		/// </summary>
-		public IHtmlAttribute[] ButtonAttributes { get; set; }
+		public HtmlAttributesCollection RadioButtonsGroupInputAttributes { get; set; }
+		/// <summary>
+		/// Submit Button element attributes.
+		/// </summary>
+		public HtmlAttributesCollection SubmitButtonAttributes { get; set; }
+		/// <summary>
+		/// Reset Button element attributes.
+		/// </summary>
+		public HtmlAttributesCollection ResetButtonAttributes { get; set; }
 	}
 }
