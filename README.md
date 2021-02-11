@@ -25,9 +25,7 @@ public class EmployeeViewModel
 	public DateTime BirthDate { get; set; }
 	public DateTime? EndDate { get; set; }
 	public TimeSpan CoffeeBreak { get; set; }
-
 	public IFormFile Photo { get; set; }
-
 	[IgonreUI]
 	public bool IsInBreak { get; set; }
 }
