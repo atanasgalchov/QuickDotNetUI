@@ -45,4 +45,4 @@ Razor
 
 Result
 
-![alt text](https://github.com/atanasgalchov/QuickDotNetUI/blob/master/image.jpg?raw=true)
+![alt text](https://github.com/atanasgalchov/QuickDotNetUI/blob/master/employeeform.png?raw=true)
