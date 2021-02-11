@@ -2,7 +2,7 @@
 
 .Net Core library for help you to create quick UI for your website.
 
-This library can help you to create dynamically from basic Html elements like div, span and ect to composite Html components like forms, grids, listviews and etc., writing only C#.
+This library can help you to create dynamically, from basic Html elements like div, span and ect, to composite Html components like forms, grids, listviews and etc., writing only C#.
 
 Form
 
