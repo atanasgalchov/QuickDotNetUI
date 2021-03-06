@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using QiuckDotNetUIDemo.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,16 @@ namespace QiuckDotNetUIDemo.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            EmployeeViewModel model = new EmployeeViewModel()
+            {
+                Name = "Atanas",
+                IsFired = true,
+                Department = DepartmentsEnum.IT,
+                BirthDate = DateTime.Now,
+                CoffeeBreak = new TimeSpan(10, 15, 0),
+            };
+
+            return View(model);
         }
     }
 }

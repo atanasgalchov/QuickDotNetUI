@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Html;
+﻿using AgileDotNetHtml;
+using AgileDotNetHtml.Interfaces;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using QuickDotNetUI.Attributes;
@@ -33,10 +35,17 @@ namespace QuickDotNetUI.Core
                 }
              );
         }
-		public IHtmlContent CreateFormElement(HtmlFormOptions options)
+		public IHtmlContent CreateFormElement(IHtmlHelper htmlHelper ,HtmlFormOptions options)
 		{
             var formGenerator = new HtmlFormGenerator(options);
-            var formElement = formGenerator.GenerateFormElement();
+            IHtmlElement formElement = formGenerator.GenerateFormElement();
+
+            AspValidationInjector aspValidationInjector = new AspValidationInjector(htmlHelper, options.FormValidationOptions);
+            aspValidationInjector.Inject(formElement);
+
+       
+            
+
             return HtmlBuilder.CreateElement(formElement);
 		}
     }

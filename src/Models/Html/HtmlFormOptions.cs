@@ -1,4 +1,6 @@
-﻿using QuickDotNetUI.Models;
+﻿using AgileDotNetHtml;
+using AgileDotNetHtml.HtmlAttributes;
+using QuickDotNetUI.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -26,7 +28,10 @@ namespace QuickDotNetUI.Models
 		/// </summary>
 		public Func<HtmlElement, HtmlElement> FormGroupTemplateFunc { get; set; }
 		
-		
+		/// <summary>
+		/// ASP Validation opttions.
+		/// </summary>
+		public HtmlFormValidationOptions FormValidationOptions { get; set; }
 		/// <summary>
 		/// Form element attributes.
 		/// </summary>
@@ -79,5 +84,25 @@ namespace QuickDotNetUI.Models
 		/// Reset Button element attributes.
 		/// </summary>
 		public HtmlAttributesCollection ResetButtonAttributes { get; set; }
+	}
+
+	public class HtmlFormValidationOptions 
+	{
+		/// <summary>
+		/// Allow validation.Default true.
+		/// </summary>
+		public bool AllowValidation { get; set; } = true;
+		/// <summary>
+		/// Use validation summary.Default false.
+		/// </summary>
+		public bool UseSummary { get; set; }
+		/// <summary>
+		/// Validation Message element attributes.
+		/// </summary>
+		public HtmlAttributesCollection ValidationMessageAttributes { get; set; }
+		/// <summary>
+		/// Validation Message element template.
+		/// </summary>
+		public Func<HtmlElement, HtmlElement> ValidationMessageElementTemplate { get; set; }
 	}
 }

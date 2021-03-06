@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Html;
 using QuickDotNetUI.Core;
 using Newtonsoft.Json;
 using QuickDotNetUI.Models;
+using System.Linq.Expressions;
+using AgileDotNetHtml;
+using AgileDotNetHtml.Interfaces;
 
 namespace QuickDotNetUI.Html
 {
@@ -13,7 +16,14 @@ namespace QuickDotNetUI.Html
     {
         private static HtmlFactory htmlFactory = new HtmlFactory(new HtmlBuilder(new Html5Standarts()));
 
-        public static IHtmlContent Form(this IHtmlHelper htmlHelper, HtmlFormOptions options) { return htmlFactory.CreateFormElement(options); }
+        public static IHtmlContent Form(this IHtmlHelper htmlHelper, HtmlFormOptions options) { return htmlFactory.CreateFormElement(htmlHelper, options); }
+        public static IHtmlContent FormFor<TModel, TResult>(this IHtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TResult>> expression, HtmlFormOptions options = null) 
+        {
+            options = options ?? new HtmlFormOptions();
+            options.Model = expression.Compile().Invoke(htmlHelper.ViewData.Model);
+		    
+			return htmlFactory.CreateFormElement(htmlHelper, options);
+        }
 
         // -- input ---------------------------------------------------------------------------------------------------------------------------------
 

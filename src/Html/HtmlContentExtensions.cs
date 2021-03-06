@@ -7,11 +7,9 @@ namespace QuickDotNetUI.Html
 {
 	public static class HtmlContentExtensions
 	{
-		public static IHtmlContent AdjustContent(this IHtmlContent htmlHelper, Predicate<IHtmlContent> func) 
+		public static IHtmlContent AdjustContent(this IHtmlContent htmlHelper, Func<IHtmlContent, IHtmlContent> func)
 		{
-			func(htmlHelper);
-
-			return htmlHelper;
+			return func(htmlHelper);
 		}
 	}
 }

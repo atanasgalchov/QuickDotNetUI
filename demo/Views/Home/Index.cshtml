@@ -1,6 +1,10 @@
-﻿@using QuickDotNetUI.Html
+﻿@using AgileDotNetHtml;
+@using AgileDotNetHtml.HtmlAttributes;
+@using AgileDotNetHtml.Interfaces;
+@using QuickDotNetUI.Html
 @using QuickDotNetUI.Models
 @using QiuckDotNetUIDemo.Models
+@model EmployeeViewModel
 @{
     ViewData["Title"] = "Index";
 }
@@ -21,6 +25,25 @@
     )
 )
 
+
+@Html.FormFor(x => x, new HtmlFormOptions()
+{
+    Action = Url.Action("Save", "Empployee"),
+    FormAttributes = new IHtmlAttribute[] { new Class("form-vertical") },
+    FormGroupAttributes = new HtmlAttribute[] { new Class("form-group") },
+    LabelAttributes = new HtmlAttribute[] { new Class("control-label") },
+    InputAttributes = new HtmlAttribute[] { new Class("form-control") },
+    SubmitButtonAttributes = new HtmlAttribute[] { new Class("btn") },
+    ResetButtonAttributes = new HtmlAttribute[] { new Class("btn btn btn-danger") },
+    FormContentAttributes = new HtmlAttribute[] { new Class("form-content") },
+    FormFooterAttributes = new HtmlAttributesCollection(new Class("form-footer")),
+})
+
+<form>
+    @Html.TextBoxFor(x => x.Name)
+
+</form>
+
 @{
 
     EmployeeViewModel model = new EmployeeViewModel()
@@ -30,21 +53,21 @@
         Department = DepartmentsEnum.IT,
         BirthDate = DateTime.Now,
         CoffeeBreak = new TimeSpan(10, 15, 0),
-    }; 
+    };
 }
 <div>
-    @(Html.Form(new HtmlFormOptions()
-{
-    Model = model,
-    Action = Url.Action("Save", "Empployee"),
-    FormAttributes = new IHtmlAttribute[] { new Class("form-vertical") },
-    FormGroupAttributes = new HtmlAttribute[] { new Class("form-group") },
-    LabelAttributes = new HtmlAttribute[] { new Class("control-label") },
-    InputAttributes = new HtmlAttribute[] { new Class("form-control") },
-    SubmitButtonAttributes = new HtmlAttribute[] { new Class("btn") },
-    ResetButtonAttributes = new HtmlAttribute[] { new Class("btn btn btn-danger") },
-    FormContentAttributes = new HtmlAttribute[] { new Class("form-content") },
-    FormFooterAttributes = new HtmlAttribute[] { new Class("form-footer") },
-})
-    )
+    @*@(Html.Form(new HtmlFormOptions()
+        {
+            Model = model,
+            Action = Url.Action("Save", "Empployee"),
+            FormAttributes = new IHtmlAttribute[] { new Class("form-vertical") },
+            FormGroupAttributes = new HtmlAttribute[] { new Class("form-group") },
+            LabelAttributes = new HtmlAttribute[] { new Class("control-label") },
+            InputAttributes = new HtmlAttribute[] { new Class("form-control") },
+            SubmitButtonAttributes = new HtmlAttribute[] { new Class("btn") },
+            ResetButtonAttributes = new HtmlAttribute[] { new Class("btn btn btn-danger") },
+            FormContentAttributes = new HtmlAttribute[] { new Class("form-content") },
+            FormFooterAttributes = new HtmlAttributesCollection(new Class("form-footer")),
+        })
+        )*@
 </div>

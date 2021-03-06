@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Html;
+﻿using AgileDotNetHtml;
+using AgileDotNetHtml.HtmlAttributes;
+using AgileDotNetHtml.Interfaces;
+using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using QuickDotNetUI.Attributes;
@@ -21,7 +24,7 @@ namespace QuickDotNetUI.Core
 			_options = options;
 		}
 
-        public HtmlElement GenerateFormElement()
+        public IHtmlElement GenerateFormElement()
         {
 
             HtmlElement formContent = new HtmlElement("div");
@@ -51,9 +54,13 @@ namespace QuickDotNetUI.Core
             if (propInfo.GetCustomAttribute<HtmlDropDownAttribute>() != null)
             {
                 HtmlDropDownAttribute dropDownAttribute = propInfo.GetCustomAttribute<HtmlDropDownAttribute>();
-                IEnumerable<SelectListItem> values = (IEnumerable<SelectListItem>)_options.Model.GetType().GetProperty(dropDownAttribute.SourceProperty).GetValue(_options.Model);
+                IEnumerable<SelectListItem> values;
+                if (dropDownAttribute.SourceProperty == null)
+                    values = GetValuesFromEnum(propInfo.PropertyType);
+                else
+                    values = (IEnumerable<SelectListItem>)_options.Model.GetType().GetProperty(dropDownAttribute.SourceProperty).GetValue(_options.Model);
 
-                input = GetSelect(propInfo.Name, values, (string)propInfo.GetValue(_options.Model), dropDownAttribute.IsMultiple);
+                input = GetSelect(propInfo.Name, values, propInfo.GetValue(_options.Model)?.ToString(), dropDownAttribute.IsMultiple);
             }
             else
             {
@@ -317,6 +324,10 @@ namespace QuickDotNetUI.Core
         {         
             HtmlElement input = GetProperInput(propInfo);
             HtmlElement inputWrapper = new HtmlElement("div");
+
+            if (propInfo.GetCustomAttribute<HtmlInputAttribute>() != null)
+                input.AddAttribute(propInfo.GetCustomAttribute<HtmlInputAttribute>().Name);
+
             inputWrapper.Append(input);
             // TODO Add validation element
 
@@ -341,10 +352,10 @@ namespace QuickDotNetUI.Core
         private HtmlElement GetFormButtons()
         {
             HtmlElement submit = new HtmlElement("input");
-            submit.AddAttribute(new QuickDotNetUI.Models.Type("submit"));
+            submit.AddAttribute(new AgileDotNetHtml.HtmlAttributes.Type("submit"));
           
             HtmlElement reset = new HtmlElement("input");
-            reset.AddAttribute(new QuickDotNetUI.Models.Type("reset"));
+            reset.AddAttribute(new AgileDotNetHtml.HtmlAttributes.Type("reset"));
 
             if (_options.SubmitButtonAttributes != null)          
                 submit.AddRangeAttributes(_options.SubmitButtonAttributes);

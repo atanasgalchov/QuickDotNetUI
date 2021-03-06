@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using QuickDotNetUI.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +23,6 @@ namespace QuickDotNetUI.Extensions
         public static bool IsNullOrEmpty(this ICollection<object> array) => IsNull(array) || IsEmpty(array);
         public static bool IsNotNullAndNotEmpty(this ICollection<object> array) => !IsNull(array) && !IsEmpty(array);
     }
-
     internal static class TypeExtension 
     {
         public static bool IsNumbericType(this Type type) 
@@ -56,6 +57,19 @@ namespace QuickDotNetUI.Extensions
             Type type1 = type.IsNullable() ? Nullable.GetUnderlyingType(type) : type;
             Type type2 = compareType.IsNullable() ? Nullable.GetUnderlyingType(compareType) : compareType;
             return type1 == type2;
+        }
+
+        public static T Clone<T>(this T source)
+        {
+            // Don't serialize a null object, simply return the default for that object
+            if (Object.ReferenceEquals(source, null))
+            {
+                return default(T);
+            }
+
+            var deserializeSettings = new JsonSerializerSettings { ObjectCreationHandling = ObjectCreationHandling.Replace };
+            var serializeSettings = new JsonSerializerSettings { ReferenceLoopHandling = ReferenceLoopHandling.Ignore };
+            return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(source, serializeSettings), deserializeSettings);
         }
     }
 }

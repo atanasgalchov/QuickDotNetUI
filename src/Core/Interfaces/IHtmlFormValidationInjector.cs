@@ -1,13 +1,13 @@
 ﻿using AgileDotNetHtml.Interfaces;
-using Microsoft.AspNetCore.Html;
+using QuickDotNetUI.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace QuickDotNetUI.Core
 {
-    public interface IHtmlFactory
-    {
-        IHtmlBuilder HtmlBuilder { get; }
-    }
+	public interface IHtmlFormValidationInjector
+	{
+		void Inject(IHtmlElement element);
+	}
 }
