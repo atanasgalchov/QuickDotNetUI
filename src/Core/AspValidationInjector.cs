@@ -24,28 +24,26 @@ namespace QuickDotNetUI.Core
 			IHtmlElement input = element.Children.FirstOrDefault(x => x.TagName == "input");
 			if (input != null)
 			{
-				
-				
+
+				AgileDotNetHtml.Parser.HtmlParser parser = new AgileDotNetHtml.Parser.HtmlParser(new Html5Standarts());
+				IHtmlElementsCollection elements = parser.ParseString("<div class=\"form-group\"><label for=\"Name\" class=\"control-label\">Name*:</label><div><input class=\"form-control\" type=\"text\" value=\"Atanas\" data-val=\"true\" data-val-required name=\"Name\"><span><span class=\"field-validation-valid\" data-valmsg-for=\"Name\" data-valmsg-replace=\"true\"></span></span></div></div>");  
 
 				if (input.GetAttribute("name")?.Value != null)
 				{
-					HtmlElement validationMessageTag = new HtmlElement("span");
+					IHtmlElement validationMessageTag;
 					using (var writer = new System.IO.StringWriter())
 					{						
 						_htmlHelper.ValidationMessage(input.GetAttribute("name").Value, _options?.ValidationMessageAttributes?.ToDictionary()).WriteTo(writer, HtmlEncoder.Default);
-						validationMessageTag.Text(new HtmlString(writer.ToString()));
+						validationMessageTag = parser.ParseString(writer.ToString()).FirstOrDefault();
 					}
 
 					using (var writer = new System.IO.StringWriter())
 					{
-						_htmlHelper.TextBox(input.GetAttribute("name").Value).WriteTo(writer, HtmlEncoder.Default);
-
-						foreach (var item in Regex.Match(writer.ToString(), @"(\S+)=[""']?((?:.(?![""']?\s + (?:\S +)=|\s *\/?[> ""']))+.)[""']?").Captures)		
-							input.AddAttributeValue(item.ToString().Split("=")[0], item.ToString().Split("=")[1]);
-
-						foreach (var item in Regex.Match(writer.ToString(), @"\s([a-zA-Z]+)[\s />]").Captures)						
-							input.AddAttribute(new Name(item.ToString()));
-							
+						 _htmlHelper.TextBox(input.GetAttribute("name").Value).WriteTo(writer, HtmlEncoder.Default);
+						IHtmlElement textBox = parser.ParseString(writer.ToString()).FirstOrDefault();
+						foreach (var attr in textBox.Attributes)						
+							if (attr.Name.StartsWith("data"))
+								input.AddAttribute(attr);						
 					}
 
 					element.Children.AddAfter(input.UId, validationMessageTag);
