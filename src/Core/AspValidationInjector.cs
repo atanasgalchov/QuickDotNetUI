@@ -26,8 +26,7 @@ namespace QuickDotNetUI.Core
 			{
 
 				AgileDotNetHtml.Parser.HtmlParser parser = new AgileDotNetHtml.Parser.HtmlParser(new Html5Standarts());
-				IHtmlElementsCollection elements = parser.ParseString("<div class=\"form-group\"><label for=\"Name\" class=\"control-label\">Name*:</label><div><input class=\"form-control\" type=\"text\" value=\"Atanas\" data-val=\"true\" data-val-required name=\"Name\"><span><span class=\"field-validation-valid\" data-valmsg-for=\"Name\" data-valmsg-replace=\"true\"></span></span></div></div>");  
-
+ 
 				if (input.GetAttribute("name")?.Value != null)
 				{
 					IHtmlElement validationMessageTag;
