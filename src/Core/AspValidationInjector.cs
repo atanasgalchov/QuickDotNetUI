@@ -1,5 +1,4 @@
 ﻿using AgileDotNetHtml;
-using AgileDotNetHtml.HtmlAttributes;
 using AgileDotNetHtml.Interfaces;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -25,8 +24,8 @@ namespace QuickDotNetUI.Core
 			if (input != null)
 			{
 
-				AgileDotNetHtml.Parser.HtmlParser parser = new AgileDotNetHtml.Parser.HtmlParser(new Html5Standarts());
- 
+				HtmlParser parser = new HtmlParser();
+
 				if (input.GetAttribute("name")?.Value != null)
 				{
 					IHtmlElement validationMessageTag;

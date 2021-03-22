@@ -1,9 +1,5 @@
-﻿using AgileDotNetHtml;
-using AgileDotNetHtml.HtmlAttributes;
-using QuickDotNetUI.Models;
+﻿using AgileDotNetHtml.Models;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace QuickDotNetUI.Models
 {

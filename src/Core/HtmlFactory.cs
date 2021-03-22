@@ -1,21 +1,14 @@
-﻿using AgileDotNetHtml;
-using AgileDotNetHtml.Interfaces;
+﻿using AgileDotNetHtml.Interfaces;
+using AgileDotNetHtml.Models;
 using Microsoft.AspNetCore.Html;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using QuickDotNetUI.Attributes;
-using QuickDotNetUI.Extensions;
 using QuickDotNetUI.Models;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 
 namespace QuickDotNetUI.Core
 {
-    public class HtmlFactory : IHtmlFactory
+	public class HtmlFactory : IHtmlFactory
     {
         private IHtmlBuilder _htmlBuilder { get; set; }
         public HtmlFactory(IHtmlBuilder htmlBuilder)
@@ -28,7 +21,7 @@ namespace QuickDotNetUI.Core
         {
             string text = $"{htmlElemenDefinition.Text}" +
                 $"{(htmlElemenDefinition.Elements != null ? String.Join(' ', htmlElemenDefinition.Elements.Select(x => x.ToString())) : String.Empty)}";
-            return HtmlBuilder.CreateElement(
+            return HtmlBuilder.CreateHtmlContent(
                 new HtmlElement(htmlElemenDefinition.TagName, text) 
                 { 
                     Attributes = htmlElemenDefinition.Attributes
@@ -46,7 +39,7 @@ namespace QuickDotNetUI.Core
        
             
 
-            return HtmlBuilder.CreateElement(formElement);
+            return HtmlBuilder.CreateHtmlContent(formElement);
 		}
     }
 }

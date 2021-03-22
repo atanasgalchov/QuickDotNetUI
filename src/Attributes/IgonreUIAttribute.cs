@@ -1,6 +1,4 @@
-﻿using AgileDotNetHtml;
-using QuickDotNetUI.Models;
-using System;
+﻿using AgileDotNetHtml.Models;
 
 namespace QuickDotNetUI.Attributes
 {
@@ -9,6 +7,7 @@ namespace QuickDotNetUI.Attributes
 		public IgonreUIAttribute()
 		{
 		}
+
 		public IgonreUIAttribute(HtmlElement[] allowedElements)
 		{
 			AllowedElements = allowedElements;

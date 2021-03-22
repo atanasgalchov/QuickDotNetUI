@@ -1,6 +1,5 @@
-﻿using AgileDotNetHtml;
-using AgileDotNetHtml.HtmlAttributes;
-using AgileDotNetHtml.Interfaces;
+﻿using AgileDotNetHtml.Interfaces;
+using AgileDotNetHtml.Models;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,7 +11,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace QuickDotNetUI.Core
 {
@@ -352,10 +350,10 @@ namespace QuickDotNetUI.Core
         private HtmlElement GetFormButtons()
         {
             HtmlElement submit = new HtmlElement("input");
-            submit.AddAttribute(new AgileDotNetHtml.HtmlAttributes.Type("submit"));
+            submit.AddAttribute(new AgileDotNetHtml.Models.Type("submit"));
           
             HtmlElement reset = new HtmlElement("input");
-            reset.AddAttribute(new AgileDotNetHtml.HtmlAttributes.Type("reset"));
+            reset.AddAttribute(new AgileDotNetHtml.Models.Type("reset"));
 
             if (_options.SubmitButtonAttributes != null)          
                 submit.AddRangeAttributes(_options.SubmitButtonAttributes);
