@@ -1,5 +1,7 @@
 ﻿using AgileDotNetHtml.Interfaces;
 using AgileDotNetHtml.Models;
+using AgileDotNetHtml.Models.HtmlAttributes;
+using AgileDotNetHtml.Models.HtmlElements;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,21 +16,21 @@ using System.Reflection;
 
 namespace QuickDotNetUI.Core
 {
-	public class HtmlFormGenerator
+	internal class HtmlFormGenerator
 	{
 		private HtmlFormOptions _options;
-		public HtmlFormGenerator(HtmlFormOptions options)
+		internal HtmlFormGenerator(HtmlFormOptions options)
 		{
 			_options = options;
 		}
 
-        public IHtmlElement GenerateFormElement()
+        internal HtmlNodeElement GenerateFormElement()
         {
 
-            HtmlElement formContent = new HtmlElement("div");
+            HtmlNodeElement formContent = new HtmlNodeElement("div");
             formContent.Children = GetHtmlFormGroups();
-            
-            HtmlElement formFooter = new HtmlElement("div");       
+
+            HtmlNodeElement formFooter = new HtmlNodeElement("div");       
             formFooter.Append(GetFormButtons());
 
             if (_options.FormFooterAttributes != null)
@@ -37,7 +39,7 @@ namespace QuickDotNetUI.Core
             if (_options != null && _options.FormFooterTemplateFunc != null)
                 formFooter = _options.FormFooterTemplateFunc(formFooter);
 
-            HtmlElement form = new HtmlElement("form");
+            HtmlNodeElement form = new HtmlNodeElement("form");
             form.AddAttributeValue("action", _options.Action);
             form.Attributes = _options?.FormAttributes;
             form.Append(formContent);
@@ -46,9 +48,9 @@ namespace QuickDotNetUI.Core
             return form;
         }
 
-        private HtmlElement GetInputByAttribute(PropertyInfo propInfo)
+        private IHtmlElement GetInputByAttribute(PropertyInfo propInfo)
         {
-            HtmlElement input;
+            IHtmlElement input;
             if (propInfo.GetCustomAttribute<HtmlDropDownAttribute>() != null)
             {
                 HtmlDropDownAttribute dropDownAttribute = propInfo.GetCustomAttribute<HtmlDropDownAttribute>();
@@ -68,7 +70,7 @@ namespace QuickDotNetUI.Core
 
             return input;
         }
-        private HtmlElement GetInputByPropertyInfo(PropertyInfo propInfo)
+        private IHtmlElement GetInputByPropertyInfo(PropertyInfo propInfo)
         {
             string type = "text";
             string dateFormat = (propInfo.GetCustomAttribute<DisplayFormatAttribute>() != null &&
@@ -131,7 +133,7 @@ namespace QuickDotNetUI.Core
 
             return formElements;
         }
-        private HtmlElement GetLabel(PropertyInfo propInfo)
+        private HtmlNodeElement GetLabel(PropertyInfo propInfo)
         {
             DisplayAttribute displayAttr = propInfo.GetCustomAttribute<DisplayAttribute>();
             bool IsRequired = propInfo.GetCustomAttribute<RequiredAttribute>() != null;
@@ -142,7 +144,7 @@ namespace QuickDotNetUI.Core
             else if (_options != null && _options.LabelTemplateFunc != null)
                 labelText = _options.LabelTemplateFunc(labelText);
 
-            HtmlElement label = new HtmlElement("label", labelText);
+            HtmlNodeElement label = new HtmlNodeElement("label", labelText);
             label.Attributes = new IHtmlAttribute[] { new HtmlAttribute("for", propInfo.Name)};
            
             if(_options.LabelAttributes != null)
@@ -150,17 +152,17 @@ namespace QuickDotNetUI.Core
            
             return label;
         }
-        private HtmlElement GetProperInput(PropertyInfo propInfo)
+        private IHtmlElement GetProperInput(PropertyInfo propInfo)
         {
             if (propInfo.GetCustomAttribute<UIModelAttribute>() != null)
                 return GetInputByAttribute(propInfo);
 
             return GetInputByPropertyInfo(propInfo);
         }
-        private HtmlElement GetInput(string type, string name, object value, List<SelectListItem> values, string format = null)
+        private IHtmlElement GetInput(string type, string name, object value, List<SelectListItem> values, string format = null)
         {
-            HtmlElement input = new HtmlElement("input");
-            input.AddAttribute(new Name(name));
+            IHtmlElement input = new HtmlSelfClosingTagElement("input");
+            input.AddAttribute(new HtmlNameAttribute(name));
 
             if (_options.InputAttributes != null)
                 input.AddRangeAttributes(_options.InputAttributes);
@@ -170,7 +172,7 @@ namespace QuickDotNetUI.Core
                 case "checkbox":
                     input.AddAttributeValue("type", "checkbox");
                     input.AddAttributeValue("value", "true");
-                    if ((bool)value == true)
+                    if (value != null && (bool)value == true)
                         input.AddAttribute(new HtmlAttribute("checked"));
                     break;
                 case "color":
@@ -243,10 +245,10 @@ namespace QuickDotNetUI.Core
 
             return input;
         }
-        private HtmlElement GetSelect(string name, IEnumerable<SelectListItem> values, string value, bool isMultiple = false)
+        private HtmlNodeElement GetSelect(string name, IEnumerable<SelectListItem> values, string value, bool isMultiple = false)
         {
-            HtmlElement select = new HtmlElement("select");
-            select.AddAttribute(new Name(name));
+            HtmlNodeElement select = new HtmlNodeElement("select");
+            select.AddAttribute(new HtmlNameAttribute(name));
             if (isMultiple)
                 select.AddAttribute("multiple");
 
@@ -255,7 +257,7 @@ namespace QuickDotNetUI.Core
 
             foreach (var item in values)
             {
-                var option = new HtmlElement("option")
+                var option = new HtmlPairTagsElement("option")
                 {
                     Attributes = new IHtmlAttribute[]
                     {
@@ -273,23 +275,23 @@ namespace QuickDotNetUI.Core
 
             return select;
         }
-        private HtmlElement GeRadioButtonsGroup(string name, IEnumerable<SelectListItem> values, string value, bool isMultiple = false)
+        private HtmlNodeElement GeRadioButtonsGroup(string name, IEnumerable<SelectListItem> values, string value, bool isMultiple = false)
         {
-            HtmlElement wrapper = new HtmlElement("div");
+            HtmlNodeElement wrapper = new HtmlNodeElement("div");
           
             if (_options.RadioButtonsWrapperAttributes != null)
                 wrapper.AddRangeAttributes(_options.RadioButtonsWrapperAttributes);
 
             foreach (var item in values)
             {
-               
-                var label = new HtmlElement("label");
-                label.Text(new HtmlString(item.Text), 1);
+
+                HtmlNodeElement label = new HtmlNodeElement("label");
+                label.Text(item.Text);
 
                 if (_options.RadioButtonsGroupLabelAttributes != null)
                     label.AddRangeAttributes(_options.RadioButtonsGroupLabelAttributes);
 
-                var radioInput = new HtmlElement("input")
+                var radioInput = new HtmlSelfClosingTagElement("input")
                 {
                     Attributes = new IHtmlAttribute[]
                     {
@@ -307,7 +309,7 @@ namespace QuickDotNetUI.Core
 
                 label.Append(radioInput);
                
-                var div = new HtmlElement("div");
+                var div = new HtmlNodeElement("div");
                 div.Append(label);
 
                 if (_options.RadioButtonsGroupWrapperAttributes != null)
@@ -318,10 +320,10 @@ namespace QuickDotNetUI.Core
 
             return wrapper;
         }
-        private HtmlElement GetFormGroup(PropertyInfo propInfo)
+        private HtmlPairTagsElement GetFormGroup(PropertyInfo propInfo)
         {         
-            HtmlElement input = GetProperInput(propInfo);
-            HtmlElement inputWrapper = new HtmlElement("div");
+            IHtmlElement input = GetProperInput(propInfo);
+            HtmlNodeElement inputWrapper = new HtmlNodeElement("div");
 
             if (propInfo.GetCustomAttribute<HtmlInputAttribute>() != null)
                 input.AddAttribute(propInfo.GetCustomAttribute<HtmlInputAttribute>().Name);
@@ -332,9 +334,9 @@ namespace QuickDotNetUI.Core
             if (_options.InputWrapperAttributes != null)
                 inputWrapper.AddRangeAttributes(_options.InputWrapperAttributes);
 
-            HtmlElement label = GetLabel(propInfo);
+            HtmlNodeElement label = GetLabel(propInfo);
 
-            HtmlElement formGroup = new HtmlElement("div");
+            HtmlNodeElement formGroup = new HtmlNodeElement("div");
             formGroup.Append(label);
 
             if (_options.FormGroupAttributes != null)
@@ -347,13 +349,13 @@ namespace QuickDotNetUI.Core
 
             return formGroup;
         }
-        private HtmlElement GetFormButtons()
+        private HtmlNodeElement GetFormButtons()
         {
-            HtmlElement submit = new HtmlElement("input");
-            submit.AddAttribute(new AgileDotNetHtml.Models.Type("submit"));
-          
-            HtmlElement reset = new HtmlElement("input");
-            reset.AddAttribute(new AgileDotNetHtml.Models.Type("reset"));
+            HtmlSelfClosingTagElement submit = new HtmlSelfClosingTagElement("input");
+            submit.AddAttribute(new HtmlTypeAttribute("submit"));
+
+            HtmlSelfClosingTagElement reset = new HtmlSelfClosingTagElement("input");
+            reset.AddAttribute(new HtmlTypeAttribute("reset"));
 
             if (_options.SubmitButtonAttributes != null)          
                 submit.AddRangeAttributes(_options.SubmitButtonAttributes);
@@ -361,7 +363,7 @@ namespace QuickDotNetUI.Core
             if (_options.ResetButtonAttributes != null)
                 reset.AddRangeAttributes(_options.ResetButtonAttributes);
 
-            HtmlElement wrapper = new HtmlElement("span");
+            HtmlNodeElement wrapper = new HtmlNodeElement("span");
             wrapper.Append(submit);
             wrapper.Append(reset);
 

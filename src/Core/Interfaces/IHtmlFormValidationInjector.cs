@@ -1,13 +1,11 @@
-﻿using AgileDotNetHtml.Interfaces;
-using QuickDotNetUI.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+
+using AgileDotNetHtml.Models.HtmlElements;
 
 namespace QuickDotNetUI.Core
 {
 	public interface IHtmlFormValidationInjector
 	{
-		void Inject(IHtmlElement element);
+		void Inject(HtmlNodeElement element);
 	}
 }

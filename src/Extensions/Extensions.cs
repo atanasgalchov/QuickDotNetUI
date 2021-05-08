@@ -48,11 +48,11 @@ namespace QuickDotNetUI.Extensions
                     return false;
             }
         }
-        public static bool IsNullable(this Type type)
+        internal static bool IsNullable(this Type type)
         {
             return Nullable.GetUnderlyingType(type) != null;
         }
-        public static bool IsEqualTypeIgnoreNullable(this Type type, Type compareType)
+        internal static bool IsEqualTypeIgnoreNullable(this Type type, Type compareType)
         {
             Type type1 = type.IsNullable() ? Nullable.GetUnderlyingType(type) : type;
             Type type2 = compareType.IsNullable() ? Nullable.GetUnderlyingType(compareType) : compareType;

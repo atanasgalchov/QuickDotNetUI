@@ -1,4 +1,5 @@
-﻿using AgileDotNetHtml.Models;
+﻿using AgileDotNetHtml.Models.HtmlAttributes;
+using AgileDotNetHtml.Models.HtmlElements;
 using System;
 
 namespace QuickDotNetUI.Models
@@ -18,11 +19,11 @@ namespace QuickDotNetUI.Models
 		/// <summary>
 		/// Buttons Templete as Func.
 		/// </summary>
-		public Func<HtmlElement, HtmlElement> FormFooterTemplateFunc { get; set; }
+		public Func<HtmlNodeElement, HtmlNodeElement> FormFooterTemplateFunc { get; set; }
 		/// <summary>
 		/// Form group Templete as Func.
 		/// </summary>
-		public Func<HtmlElement, HtmlElement> FormGroupTemplateFunc { get; set; }
+		public Func<HtmlNodeElement, HtmlNodeElement> FormGroupTemplateFunc { get; set; }
 		
 		/// <summary>
 		/// ASP Validation opttions.
@@ -99,6 +100,6 @@ namespace QuickDotNetUI.Models
 		/// <summary>
 		/// Validation Message element template.
 		/// </summary>
-		public Func<HtmlElement, HtmlElement> ValidationMessageElementTemplate { get; set; }
+		public Func<HtmlNodeElement, HtmlNodeElement> ValidationMessageElementTemplate { get; set; }
 	}
 }

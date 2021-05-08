@@ -1,4 +1,5 @@
 ﻿using AgileDotNetHtml.Models;
+using AgileDotNetHtml.Models.HtmlElements;
 
 namespace QuickDotNetUI.Attributes
 {

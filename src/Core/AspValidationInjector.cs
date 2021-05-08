@@ -1,5 +1,6 @@
 ﻿using AgileDotNetHtml;
 using AgileDotNetHtml.Interfaces;
+using AgileDotNetHtml.Models.HtmlElements;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using QuickDotNetUI.Models;
@@ -8,17 +9,17 @@ using System.Text.RegularExpressions;
 
 namespace QuickDotNetUI.Core
 {
-	public class AspValidationInjector : IHtmlFormValidationInjector
+	internal class AspValidationInjector : IHtmlFormValidationInjector
 	{
 		private IHtmlHelper _htmlHelper;
 		private HtmlFormValidationOptions _options;
-		public AspValidationInjector(IHtmlHelper htmlHelper, HtmlFormValidationOptions options)
+		internal AspValidationInjector(IHtmlHelper htmlHelper, HtmlFormValidationOptions options)
 		{
 			_htmlHelper = htmlHelper;
 			_options = options;
 		}
 
-		public void Inject(IHtmlElement element)
+		public void Inject(HtmlNodeElement element)
 		{
 			IHtmlElement input = element.Children.FirstOrDefault(x => x.TagName == "input");
 			if (input != null)
@@ -44,14 +45,15 @@ namespace QuickDotNetUI.Core
 								input.AddAttribute(attr);						
 					}
 
-					element.Children.AddAfter(input.UId, validationMessageTag);
+					element.AddAfter(input.UId, validationMessageTag);
 				}
 			}
 
 			int index = 0;
 			while (element.Children.Count > index)
 			{
-				Inject(element.Children[index]);
+				if(element.Children[index] is IHtmlNodeElement)
+					Inject((HtmlNodeElement)element.Children[index]);
 				index++;
 			}
 		}

@@ -1,5 +1,5 @@
 ﻿using AgileDotNetHtml.Interfaces;
-using AgileDotNetHtml.Models;
+using AgileDotNetHtml.Models.HtmlElements;
 using Microsoft.AspNetCore.Html;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using QuickDotNetUI.Models;
@@ -22,7 +22,7 @@ namespace QuickDotNetUI.Core
             string text = $"{htmlElemenDefinition.Text}" +
                 $"{(htmlElemenDefinition.Elements != null ? String.Join(' ', htmlElemenDefinition.Elements.Select(x => x.ToString())) : String.Empty)}";
             return HtmlBuilder.CreateHtmlContent(
-                new HtmlElement(htmlElemenDefinition.TagName, text) 
+                new HtmlNodeElement(htmlElemenDefinition.TagName, text) 
                 { 
                     Attributes = htmlElemenDefinition.Attributes
                 }
@@ -31,13 +31,11 @@ namespace QuickDotNetUI.Core
 		public IHtmlContent CreateFormElement(IHtmlHelper htmlHelper ,HtmlFormOptions options)
 		{
             var formGenerator = new HtmlFormGenerator(options);
-            IHtmlElement formElement = formGenerator.GenerateFormElement();
+            HtmlNodeElement formElement = formGenerator.GenerateFormElement();
 
             AspValidationInjector aspValidationInjector = new AspValidationInjector(htmlHelper, options.FormValidationOptions);
-            aspValidationInjector.Inject(formElement);
-
-       
-            
+            if (htmlHelper.ViewContext.ClientValidationEnabled)
+                aspValidationInjector.Inject(formElement);
 
             return HtmlBuilder.CreateHtmlContent(formElement);
 		}

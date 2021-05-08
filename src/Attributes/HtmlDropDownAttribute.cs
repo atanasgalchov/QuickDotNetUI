@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace QuickDotNetUI.Attributes
 {
@@ -23,10 +20,14 @@ namespace QuickDotNetUI.Attributes
 			SourceProperty = sourceProperty;
 			Values = values;
 		}
+
+		/// <summary>
+		/// An flag indicates whether drop down control will be multiple. Default is false.
+		/// </summary>
 		public bool IsMultiple { get; set; }
 
 		/// <summary>
-		/// Property Name in curent object which keep Values of type 'IEnumerable SelectListItem>'.
+		/// Property Name in curent object which keep Values of type 'IEnumerable whit type SelectListItem.
 		/// </summary>
 		public string SourceProperty { get; set; }
 

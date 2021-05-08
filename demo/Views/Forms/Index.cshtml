@@ -1,0 +1,29 @@
+﻿@using AgileDotNetHtml;
+@using AgileDotNetHtml.Models.HtmlAttributes;
+@using AgileDotNetHtml.Models.HtmlElements;
+@using AgileDotNetHtml.Interfaces;
+@using QuickDotNetUI.Html
+@using QuickDotNetUI.Models
+@using QiuckDotNetUIDemo.Models
+@model EmployeeViewModel
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div>
+    @Html.FormFor(x => x, new HtmlFormOptions()
+    {
+        Action = Url.Action("Index", "Home"),
+        FormAttributes = new IHtmlAttribute[] { new HtmlClassAttribute("form-vertical"), new HtmlMethodAttribute("post") },
+        FormGroupAttributes = new HtmlAttribute[] { new HtmlClassAttribute("form-group") },
+        LabelAttributes = new HtmlAttribute[] { new HtmlClassAttribute("control-label") },
+        InputAttributes = new HtmlAttribute[] { new HtmlClassAttribute("form-control") },
+        SubmitButtonAttributes = new HtmlAttribute[] { new HtmlClassAttribute("btn") },
+        ResetButtonAttributes = new HtmlAttribute[] { new HtmlClassAttribute("btn btn btn-danger") },
+        FormContentAttributes = new HtmlAttribute[] { new HtmlClassAttribute("form-content") },
+        FormFooterAttributes = new HtmlAttributesCollection(new HtmlClassAttribute("form-footer")),
+    }).AddAttribute("autocomplete", "off")
+</div>
+
+
+
