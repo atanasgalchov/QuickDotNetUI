@@ -2,6 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <Description>.Net Core library for help you to create quick UI for your website. (Demo version)</Description>
+    <Copyright>MIT License</Copyright>
+    <Authors>atanasgalchov</Authors>
+    <Company>atanasgalchov</Company>
+    <RepositoryUrl>https://github.com/atanasgalchov/QuickDotNetUI</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/atanasgalchov/QuickDotNetUI</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageTags>Html HtmlHelpers Helpers UI userinterface Forms HtmlForms Widgets</PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>D:\Development\Projects\QuickDotNetUI\src\QuickDotNetUI.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +28,13 @@
 
   <ItemGroup>
     <Folder Include="Models\Html\Interfaces\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
